@@ -1,0 +1,57 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+class User {
+   private static int idCounter = 1000;
+   private int userId;
+   private String name;
+   private String phone;
+   private String email;
+   private String address;
+
+   public User(String var1, String var2, String var3, String var4) {
+      this.userId = idCounter++;
+      this.name = var1;
+      this.phone = var2;
+      this.email = var3;
+      this.address = var4;
+   }
+
+   public int getUserId() {
+      return this.userId;
+   }
+
+   public String getName() {
+      return this.name;
+   }
+
+   public String toString() {
+      return this.userId + "," + this.name + "," + this.phone + "," + this.email + "," + this.address;
+   }
+
+   public static void saveToFile(User var0) {
+      try {
+         BufferedWriter var1 = new BufferedWriter(new FileWriter("users.txt", true));
+
+         try {
+            var1.write(var0.toString());
+            var1.newLine();
+         } catch (Throwable var5) {
+            try {
+               var1.close();
+            } catch (Throwable var4) {
+               var5.addSuppressed(var4);
+            }
+
+            throw var5;
+         }
+
+         var1.close();
+      } catch (IOException var6) {
+         System.out.println("Error saving user: " + var6.getMessage());
+      }
+
+   }
+}

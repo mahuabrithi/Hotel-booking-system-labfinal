@@ -1,0 +1,81 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+
+class Hotel {
+   private String name;
+   private List<Room> rooms = new ArrayList();
+   private List<Booking> bookings = new ArrayList();
+
+   public Hotel(String var1) {
+      this.name = var1;
+   }
+
+   public void addRoom(Room var1) {
+      this.rooms.add(var1);
+   }
+
+   public void searchAndBookRoom(Scanner var1) {
+      System.out.println("Select room type:");
+      System.out.println("1. Single\n2. Double\n3. Suite");
+      System.out.print("Choose an option: ");
+      int var2 = var1.nextInt();
+      String var10000;
+      switch (var2) {
+         case 1:
+            var10000 = "Single";
+            break;
+         case 2:
+            var10000 = "Double";
+            break;
+         case 3:
+            var10000 = "Suite";
+            break;
+         default:
+            System.out.println("Invalid choice.");
+            var10000 = "";
+      }
+
+      String var3 = var10000;
+      if (!var3.isEmpty()) {
+         Room var4 = null;
+         synchronized(this.rooms) {
+            Iterator var6 = this.rooms.iterator();
+
+            while(var6.hasNext()) {
+               Room var7 = (Room)var6.next();
+               if (var7.getType().equalsIgnoreCase(var3) && var7.isAvailable()) {
+                  var4 = var7;
+                  break;
+               }
+            }
+
+            if (var4 != null) {
+               System.out.print("Enter your name: ");
+               var1.nextLine();
+               String var10 = var1.nextLine();
+               var4.setAvailable(false);
+               Booking var11 = new Booking(var10, var4);
+               this.bookings.add(var11);
+               Booking.saveToFile(var11);
+               System.out.println("Room booked successfully! Room Number: " + var4.getNumber());
+            } else {
+               System.out.println("No available rooms of type: " + var3);
+            }
+
+         }
+      }
+   }
+
+   public void viewBookings() {
+      Iterator var1 = this.bookings.iterator();
+
+      while(var1.hasNext()) {
+         Booking var2 = (Booking)var1.next();
+         System.out.println(var2);
+      }
+
+   }
+}

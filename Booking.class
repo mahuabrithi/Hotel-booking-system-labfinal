@@ -1,0 +1,79 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+class Booking {
+   private String guestName;
+   private Room room;
+   private boolean checkedIn = false;
+   private boolean checkedOut = false;
+   private String review = "None";
+
+   public Booking(String var1, Room var2) {
+      this.guestName = var1;
+      this.room = var2;
+   }
+
+   public String getGuestName() {
+      return this.guestName;
+   }
+
+   public Room getRoom() {
+      return this.room;
+   }
+
+   public boolean isCheckedIn() {
+      return this.checkedIn;
+   }
+
+   public void setCheckedIn(boolean var1) {
+      this.checkedIn = var1;
+   }
+
+   public void setCheckedOut(boolean var1) {
+      this.checkedOut = var1;
+   }
+
+   public void setReview(String var1) {
+      this.review = var1;
+   }
+
+   public void generateInvoice() {
+      System.out.println("--- Invoice ---");
+      System.out.println("Guest: " + this.guestName);
+      System.out.println("Room Number: " + this.room.getNumber());
+      System.out.println("Room Type: " + this.room.getType());
+      System.out.println("Amount Due: $" + this.room.getPrice());
+      System.out.println("----------------");
+   }
+
+   public String toString() {
+      String var10000 = this.guestName;
+      return var10000 + "," + this.room.getNumber() + "," + this.room.getType() + "," + this.room.getPrice() + "," + this.checkedIn + "," + this.checkedOut + "," + this.review;
+   }
+
+   public static void saveToFile(Booking var0) {
+      try {
+         BufferedWriter var1 = new BufferedWriter(new FileWriter("bookings.txt", true));
+
+         try {
+            var1.write(var0.toString());
+            var1.newLine();
+         } catch (Throwable var5) {
+            try {
+               var1.close();
+            } catch (Throwable var4) {
+               var5.addSuppressed(var4);
+            }
+
+            throw var5;
+         }
+
+         var1.close();
+      } catch (IOException var6) {
+         System.out.println("Error saving booking: " + var6.getMessage());
+      }
+
+   }
+}
